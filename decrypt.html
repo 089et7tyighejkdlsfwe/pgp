@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>PGP Decryption</title>
+
+<script src="./js/rsa.js"></script>
+<script src="./js/aes-enc.js"></script>
+<script src="./js/PGdecode.js"></script>
+<script src="./js/base64.js"></script>
+<script src="./js/sha1.js"></script>
+<script src="./js/cast5.js"></script>
+<script src="./keys/keys.js"></script>
+
+<script language="Javascript">
+
+// Holds data when private key decoded with password on first call to doDecrypt()
+var dk = [];
+var pk = [];
+var qk = [];
+var uk = [];
+var seskey = '';
+
+function decryptText(text, privateKey) { 
+ doDecrypt(pk, qk, dk, uk, privateKey);
+ return doDecrypt(pk, qk, dk, uk, text);
+}
+
+</script>
+</head>
+
+<body>
+
+<form name="t">
+<table>
+<tbody><tr><td colspan="2">
+<textarea name="text" rows="30" cols="50"></textarea>
+</td></tr>
+<tr>
+<td align="left">
+<input onclick="document.t.text.value=decryptText(document.t.text.value, document.t.privateKey.value);document.t.text.select();" type="button" value="Decrypt">
+</td>
+</tr>
+
+
+<tr><td>
+<textarea name="privateKey" rows="20" cols="62"></textarea><script language="Javascript">document.t.privateKey.value=privateKey</script>
+</td></tr>
+
+</tbody></table>
+</form>
+
+
+</body></html>

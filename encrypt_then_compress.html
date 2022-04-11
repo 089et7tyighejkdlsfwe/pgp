@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+ 
+ <meta name="resource-type" content="document">
+
+ <title>PGP Encryption</title>
+
+<script language="Javascript" src="./js/rsa.js" type="text/javascript"></script>
+<script language="Javascript" src="./js/aes-enc.js" type="text/javascript"></script>
+<script language="Javascript" src="./js/sha1.js" type="text/javascript"></script>
+<script language="Javascript" src="./js/base64.js" type="text/javascript"></script>
+<script language="Javascript" src="./js/PGpubkey.js" type="text/javascript"></script>
+<script language="Javascript" src="./js/mouse.js" type="text/javascript"></script>
+<script language="Javascript" src="./js/PGencode.js" type="text/javascript"></script>
+<script language="Javascript" src="./js/compress_decompress.js" type="text/javascript"></script>
+<script src="./keys/keys.js"></script>
+
+<script language="Javascript" type="text/javascript">
+
+function encryptText(text, pubKey) {
+ 
+ var pu = new getPublicKey(document.t.pubKey.value, pubKey);
+ 
+ if (pu.vers == -1) {
+	return;
+ }
+ //variables: pu.vers; pu.user;
+
+ var pubkey = pu.pkey.replace(/\n/g,'');
+ 
+ if(pu.keyid.length != 16)
+ {
+   alert('Invalid Key Id');
+   return;
+ } 
+
+ var keytyp = -1;
+ if(pu.type == 'ELGAMAL') keytyp = 1;
+ if(pu.type == 'RSA')     keytyp = 0;
+ if(keytyp == -1)
+ {
+   alert('Unsupported Key Type');
+   return;
+ } 
+
+ 
+ // Doesn't work to compress and then encrypt
+ //return doEncrypt(pu.keyid, keytyp, pubkey, compress(text));
+ // Works to compress after encryption but only if save all chars in charset
+ return compress(doEncrypt(pu.keyid, keytyp, pubkey, text));
+
+}
+
+
+
+
+</script>
+</head>
+
+<body>
+
+<b>Must save all chars using UTF8 encoding or won't be able to decrypt</b>
+
+<form name="t" action="javascript:return false;">
+<table>
+<tbody>
+
+
+<tr><td>
+<textarea name="text" rows="30" cols="50">
+</textarea></td></tr>
+
+<tr><td>
+
+<input type="submit" value="Encrypt" onclick="document.t.text.value=encryptText(document.t.text.value, document.t.pubKey.value);document.t.text.select();"></td>
+
+</td></tr>
+
+
+<tr><td>
+<textarea name="pubKey" rows="13" cols="62"></textarea><script language="Javascript">document.t.pubKey.value=publicKey</script>
+</td></tr>
+
+
+
+</tbody></table>
+</form>
+
+
+</body></html>

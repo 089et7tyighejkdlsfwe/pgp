@@ -1,0 +1,18 @@
+{
+  "name": "PGP Textarea encryption/decryption",
+  "description": "PGP Encrypts and Decrypts textarea contents client-side via the right click menu",
+  "version": "0.1",
+  "manifest_version": 2,
+  "permissions": ["tabs", "contextMenus"],
+  "background": {
+    "page": [
+      "chrome_extension/background.html"
+    ],
+    "persistent": true
+  },
+  "content_scripts": [ {
+		"js": [  "keys/keys.js", "chrome_extension/jquery.js", "chrome_extension/content_script.js", "js/aes-enc.js", "js/base64.js", "js/mouse.js", "js/PGencode.js", "js/PGpubkey.js", "js/rsa.js", "js/sha1.js", "js/PGdecode.js", "js/cast5.js" ],
+		"matches": [ "http://*/*", "https://*/*", "file:///*/*" ],
+		"all_frames": true
+	} ]
+}
